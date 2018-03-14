@@ -24,6 +24,13 @@ class SplicerSpectrogram:
         self.extension = extension
 
     def splice_audio_files(self, data_dir, results_dir, chunk_length_ms=3000):
+        """ Checks data directory and collects all audios with specified extension to splice
+
+        :param data_dir: data directory
+        :param results_dir: results directory
+        :param chunk_length_ms: length of audio chunk in milliseconds
+        :return:
+        """
         # Find all files in data directory with specific extension
         files = [f for f in os.listdir(self.project_dir + data_dir) if f.endswith(self.extension)]
 
@@ -33,8 +40,8 @@ class SplicerSpectrogram:
             print(f)
             self.splice_single_audio(data_dir, results_dir, f, chunk_length_ms)
 
-    def splice_single_audio(self, data_dir, results_dir, filename, chunk_length_ms=4000):
-        """ Splices audio into segments of specific length or less
+    def splice_single_audio(self, data_dir, results_dir, filename, chunk_length_ms=3000):
+        """ Splices single audio into segments of specific length or less
 
         :param data_dir: data directory
         :param results_dir: results directory
@@ -109,7 +116,6 @@ class SplicerSpectrogram:
 
         # Calculate spectrogram
         D = librosa.stft(y)
-        # Audio's spectrogram
         D_stft = librosa.amplitude_to_db(D, ref=np.max)
         D_stft = np.array(D_stft, np.float32)
 
