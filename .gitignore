@@ -1,4 +1,4 @@
 .idea
 assets_*
 
-\*.pyc
+*\.pyc
