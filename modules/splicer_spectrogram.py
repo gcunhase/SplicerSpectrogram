@@ -1,6 +1,5 @@
 
 import os
-import utils
 from pydub import AudioSegment
 from pydub.utils import make_chunks
 import librosa
@@ -18,9 +17,7 @@ class SplicerSpectrogram:
 
         :param extension: audio file extension: .wav, .mp3, .flac
         """
-
         print("Initialize SplicerSpectrogram")
-        self.project_dir = utils.project_dir_name()
         self.extension = extension
 
     def splice_audio_files(self, data_dir, results_dir, chunk_length_ms=3000):
@@ -32,7 +29,8 @@ class SplicerSpectrogram:
         :return:
         """
         # Find all files in data directory with specific extension
-        files = [f for f in os.listdir(self.project_dir + data_dir) if f.endswith(self.extension)]
+        files = [f for f in os.listdir(data_dir) if f.endswith(self.extension)]
+        print(files)
 
         # Splice audio, length of splice in ms
         print("\nSplicing audios...")
@@ -51,9 +49,11 @@ class SplicerSpectrogram:
         """
 
         file_path = data_dir+"/"+filename
+        print(file_path)
 
         # Create new file if not existent
         file_path_new = results_dir+"/"
+        print(file_path_new)
         if not os.path.exists(file_path_new):
             os.makedirs(file_path_new)
 
@@ -78,10 +78,10 @@ class SplicerSpectrogram:
 
         # Gets relative path of list of files
         print("\nRetrieving audio files...")
-        files_audio = [f for f in os.listdir(self.project_dir + splices_dir) if f.endswith(self.extension)]
+        files_audio = [f for f in os.listdir(splices_dir) if f.endswith(self.extension)]
 
         # Gets new path for results and creates it if not existent
-        spectrograms_dir = self.project_dir + specs_dir + "/"
+        spectrograms_dir = specs_dir + "/"
         print("Spectrograms will be saved in: " + spectrograms_dir)
         if not os.path.exists(spectrograms_dir):
             os.makedirs(spectrograms_dir)
